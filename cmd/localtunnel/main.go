@@ -8,17 +8,18 @@ import (
 )
 
 func main() {
-	if len(os.Args) == 1 {
-		fmt.Fprintln(os.Stderr, "gotunnelme <local port>")
-		os.Exit(1)
-	}
-	i, err := strconv.Atoi(os.Args[1])
+	port := os.Getenv("PORT")
+	subdomain := os.Getenv("SUBDOMAIN")
+
+	fmt.Printf("PORT: %s, SUBDOMAIN: %s\n", port, subdomain)
+
+	i, err := strconv.Atoi(port)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 	t := gotunnelme.NewTunnel()
-	url, err := t.GetUrl("")
+	url, err := t.GetUrl(subdomain)
 	if err != nil {
 		panic(err)
 	}
